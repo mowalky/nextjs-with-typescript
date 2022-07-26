@@ -15,6 +15,12 @@ import Collapse from "@mui/material/Collapse";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
+import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
+import ActivityCard from "../src/Card";
 import AppBar from "../src/Appbar";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -41,6 +47,11 @@ export default function ResponsiveGrid() {
   return (
     <>
       <AppBar />
+      <FullCalendar
+        plugins={[timeGridPlugin, interactionPlugin]}
+        editable
+        selectable
+      />
       <Box sx={{ marginTop: "4rem", padding: "1rem" }}>
         <Grid
           container
@@ -49,47 +60,7 @@ export default function ResponsiveGrid() {
         >
           {Array.from(Array(60)).map((_, index) => (
             <Grid item xs={2} sm={4} md={2} key={index}>
-              <Card>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                      R
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Activity Title"
-                  subheader="Activity For..."
-                />
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                  <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                  >
-                    <ExpandMoreIcon />
-                  </ExpandMore>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <CardContent sx={{ backgroundColor: "rgb(0 0 0 / 5%)" }}>
-                    <Typography paragraph>Method:</Typography>
-                    <Typography paragraph>
-                      Heat 1/2 cup of the broth in a pot until simmering, add
-                      saffron and set aside for 10 minutes.
-                    </Typography>
-                  </CardContent>
-                </Collapse>
-              </Card>
+              <ActivityCard />
             </Grid>
           ))}
         </Grid>
