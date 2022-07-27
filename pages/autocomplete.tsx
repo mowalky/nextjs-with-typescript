@@ -2,7 +2,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import { useRef } from "react";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const AutoCompleteExample = () => {
   const [searchResults, setSearchResults] = React.useState([]);
@@ -10,15 +10,17 @@ const AutoCompleteExample = () => {
 
   const [search, setSearch] = React.useState("");
 
-  const searchData = async (search: string) => {
+  const searchData = async () => {
     setSearch(search);
     setSearchResults([]);
+    setSearching(true);
 
     const searchQuery = await fetch(`/api/search?search=${search}`);
 
     const searchResults = await searchQuery.json();
     console.log(searchResults.projects);
     setSearchResults(searchResults);
+    setSearching(false);
   };
 
   return (
@@ -28,12 +30,25 @@ const AutoCompleteExample = () => {
         label="Outlined"
         variant="outlined"
         value={search}
-        onChange={(e) => searchData(e.currentTarget.value)}
+        onChange={(e) => setSearch(e.currentTarget.value)}
       />
-      <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+      <IconButton
+        onClick={searchData}
+        type="submit"
+        sx={{ p: "10px" }}
+        aria-label="search"
+      >
         <SearchIcon />
       </IconButton>
-      {!searchResults && <div>searching...</div>}
+      <IconButton
+        onClick={() => setSearch("")}
+        type="submit"
+        sx={{ p: "10px" }}
+        aria-label="search"
+      >
+        <HighlightOffIcon />
+      </IconButton>
+      {searching && <div>searching...</div>}
       {searchResults && searchResults?.contacts?.length > 0 && (
         <div>
           <h4>Contacts</h4>
