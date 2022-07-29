@@ -9,11 +9,17 @@ const DelayPage = () => {
   async function handleSubmit() {
     setIsSaving(true);
     setIsError(false);
-
     try {
-      let json = await fetch("https://jsonplaceholder.typicode.com/users");
-
-      console.log(json);
+      console.time("save");
+      let [res] = await Promise.allSettled([
+        fetch("https://jsonplaceholder.typicode.com/users"),
+        new Promise((resolve) => setTimeout(resolve, 800)),
+      ]);
+      const APIResponse: Response = res.value;
+      let results = await APIResponse.json();
+      console.log(results);
+      console.timeEnd("save");
+      setIsSaving(false);
     } catch (e) {
       setIsSaving(false);
       setIsError(true);
@@ -23,7 +29,8 @@ const DelayPage = () => {
 
   return (
     <div>
-      <button>save</button>
+      {!isSaving && <button onClick={handleSubmit}>save</button>}
+      {isSaving && <button disabled>saving...</button>}
       {isError && <ErrorMessage />}
     </div>
   );
