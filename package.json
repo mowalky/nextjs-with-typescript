@@ -22,6 +22,7 @@
     "@fullcalendar/timegrid": "^5.11.0",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "framer-motion": "^7.0.0",
     "next": "latest",
     "next-transpile-modules": "^9.0.0",
     "react": "latest",
