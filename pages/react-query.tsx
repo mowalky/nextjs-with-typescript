@@ -6,16 +6,17 @@ import {
 
 const queryClient = new QueryClient();
 
-const Example = (): any => {
+const Example = () => {
   const { isLoading, error, data } = useQuery(["repoData"], () =>
     fetch("https://api.github.com/repos/tannerlinsley/react-query").then(
       (res) => res.json()
     )
   );
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <div>"Loading..."</div>;
 
-  if (error instanceof Error) return "An error has occurred: " + error.message;
+  if (error instanceof Error)
+    return <div>"An error has occurred: " + error.message</div>;
 
   return (
     <div>
