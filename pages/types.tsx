@@ -23,6 +23,9 @@ function clone<T>(source: T): T {
 
 let a: Contact = clone(testContact);
 
+const dateRange = { startDate: Date.now(), endDate: Date.now() };
+const dateRangeClone = clone(dateRange);
+
 const TypesTest = () => {};
 
 export default TypesTest;
