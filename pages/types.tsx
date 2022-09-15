@@ -16,6 +16,13 @@ let testContact = {
   status: ContactStatus.Active,
 };
 
+function clone<T>(source: T): T {
+  //return source;
+  return Object.assign({}, source);
+}
+
+let a: Contact = clone(testContact);
+
 const TypesTest = () => {};
 
 export default TypesTest;
